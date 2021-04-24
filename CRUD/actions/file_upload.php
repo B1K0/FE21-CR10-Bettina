@@ -2,7 +2,7 @@
 function file_upload($image) {
     $result = new stdClass();//this object will carry status from file upload
     $result->fileName = 'default.jpeg';
-    $result->error = 1;//it could also be a boolean true/false
+    $result->error = 1;
     //collect data from object $image
     $fileName = $image["name"];
     $fileType = $image["type"];

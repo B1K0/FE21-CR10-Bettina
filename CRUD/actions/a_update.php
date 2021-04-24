@@ -3,7 +3,6 @@ require_once 'db_connect.php';
 require_once  'file_upload.php';
 
 if ($_POST) {
-    $id = $_POST['id'];    
     $title = $_POST['title'];
     $type = $_POST['type'];
     $author_fname = $_POST['author_fname'];
@@ -15,17 +14,18 @@ if ($_POST) {
     $publisher_adress = $_POST['publisher_adress'];
     $publisher_size = $_POST['publisher_size'];
     $status = $_POST['status'];
+    $id = $_POST['id'];   
     //variable for upload pictures errors is initialized
     $uploadError = '';
     $image = file_upload($_FILES['image']);//function file_upload() is called  
-    if ($image->error===0){
+    if($image->error===0){
         ($_POST["image"]=="default.jpeg")?: unlink("../pictures/$_POST[image]");          
-        $sql = "UPDATE library SET `title` = '$title', `type` = $type, `image` = '$image->fileName', 
-        `author_fname` = '$author_fname', `author_lname` = '$author_lname', `ISBN` = '$ISBN', `description` = '$description', `publish_date` = '$publish_date', `publisher` = '$publisher', `publisher_adress` = '$publisher_adress', `publisher_size` = '$publisher_size', `status` = '$status' WHERE id = {$id}";
+        $sql = "UPDATE `library` SET `title` = '$title', `type` = '$type', `image` = '$image->fileName', 
+        `author_fname` = '$author_fname', `author_lname` = '$author_lname', `ISBN` = $ISBN, `description` = '$description', `publish_date` = '$publish_date', `publisher` = '$publisher', `publisher_adress` = '$publisher_adress', `publisher_size` = '$publisher_size', `status` = '$status' WHERE id = {$id}";
     }else{
-        $sql = "UPDATE library SET `title` = '$title', `type` = $type, `author_fname` = '$author_fname', `author_lname` = '$author_lname', `ISBN` = '$ISBN', `description` = '$description', `publish_date` = '$publish_date', `publisher` = '$publisher', `publisher_adress` = '$publisher_adress', `publisher_size` = '$publisher_size', `status` = '$status' WHERE id = {$id}";
+        $sql = "UPDATE `library` SET `title` = '$title', `type` = '$type', `author_fname` = '$author_fname', `author_lname` = '$author_lname', `ISBN` = $ISBN, `description` = '$description', `publish_date` = '$publish_date', `publisher` = '$publisher', `publisher_adress` = '$publisher_adress', `publisher_size` = '$publisher_size', `status` = '$status' WHERE id = {$id}";
     }    
-    if ($connect->query($sql) === TRUE) {
+    if ($connect->query($sql) === TRUE){
         $class = "success";
         $message = "Update successful";
         $uploadError = ($image->error !=0)? $image->ErrorMessage :'';
